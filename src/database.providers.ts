@@ -5,13 +5,9 @@ export const databaseProviders = [
     provide: 'DATABASE_CONNECTION',
     useFactory: async () =>
       await createConnection({
-        type: 'mysql',
-        host: 'localhost',
-        port: 3306,
-        username: 'root',
-        password: 'root',
-        database: 'test',
-        entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+        type: 'sqlite',
+        database: process.env.TYPEORM_DATABASE,
+        entities: ['dist/**/*.entity.js'],
         synchronize: true,
       }),
   },

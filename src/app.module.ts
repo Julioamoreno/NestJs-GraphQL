@@ -3,10 +3,20 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import RepoModule from './repo.module';
-import ormOptions from './config/orm';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 @Module({
-  imports: [TypeOrmModule.forRoot(ormOptions), RepoModule],
+  imports: [
+    TypeOrmModule.forRoot({
+      type: 'sqlite',
+      database: process.env.TYPEORM_DATABASE,
+      logging: true,
+      entities: ['dist/**/*.entity.js'],
+    }),
+    RepoModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
