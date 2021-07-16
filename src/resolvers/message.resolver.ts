@@ -8,7 +8,7 @@ import {
 } from '@nestjs/graphql';
 import RepoService from 'src/repo.service';
 import Message from 'src/db/models/message.entity';
-import MessageInput from './input/message.input';
+import MessageInput, { DeleteMessageInput } from './input/message.input';
 import User from 'src/db/models/user.entity';
 
 @Resolver(() => Message)
@@ -42,6 +42,21 @@ class MessageResolver {
     });
 
     return this.repoService.messageRepo.save(message);
+  }
+
+  @Mutation(() => Message, { nullable: true })
+  public async deleteMessage(
+    @Args('data') input: DeleteMessageInput,
+  ): Promise<Message> {
+    const message = await this.repoService.messageRepo.findOne(input.id);
+    const copy = { ...message };
+    if (!message || input.userId !== message.userId)
+      throw new Error(
+        'Message does not exists or you are not the message author',
+      );
+
+    await this.repoService.messageRepo.remove(message);
+    return copy;
   }
 
   @ResolveField(() => User, { name: 'user' })

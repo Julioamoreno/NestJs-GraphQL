@@ -22,6 +22,21 @@ class UserResolver {
     const user = this.repoService.userRepo.create({ email: input.email });
     return this.repoService.userRepo.save(user);
   }
+
+  @Mutation(() => User)
+  public async createUserOrAuthentication(
+    @Args('data') input: UserInput,
+  ): Promise<User> {
+    let user = await this.repoService.userRepo.findOne({
+      where: { email: input.email },
+    });
+
+    if (!user) {
+      user = this.repoService.userRepo.create({ email: input.email });
+      await this.repoService.userRepo.save(user);
+    }
+    return user;
+  }
 }
 
 export default UserResolver;
