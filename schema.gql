@@ -9,7 +9,6 @@ type Message {
   createdAt: DateTime!
   updatedAt: DateTime!
   user: User!
-  getUser: User!
 }
 
 """
@@ -27,16 +26,21 @@ type User {
 type Query {
   getUsers: [User!]!
   user(id: Float!): User
-  getMessages: [Message!]!
+  getMessages: [Message!]
   getMessagesFromUser(userID: Float!): [Message!]!
   message(id: Float!): Message
 }
 
 type Mutation {
   createUser(data: UserInput!): User!
-  createMessage: Message!
+  createMessage(data: MessageInput!): Message!
 }
 
 input UserInput {
   email: String!
+}
+
+input MessageInput {
+  content: String!
+  userId: Float!
 }
