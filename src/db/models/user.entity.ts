@@ -10,7 +10,7 @@ import {
 import Message from './message.entity';
 
 @ObjectType()
-@Entity()
+@Entity({ name: 'users' })
 export default class User {
   @Field()
   @PrimaryGeneratedColumn()

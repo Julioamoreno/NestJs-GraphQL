@@ -1,11 +1,17 @@
 import { Module } from '@nestjs/common';
+import { GraphQLModule } from '@nestjs/graphql';
+import { TypeOrmModule } from '@nestjs/typeorm';
+
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import RepoModule from './repo.module';
+import UserResolvers from './resolvers/user.resolver';
+
 import * as dotenv from 'dotenv';
 
 dotenv.config();
+
+const graphQLImports = [UserResolvers];
 
 @Module({
   imports: [
@@ -16,6 +22,11 @@ dotenv.config();
       entities: ['dist/**/*.entity.js'],
     }),
     RepoModule,
+    ...graphQLImports,
+    GraphQLModule.forRoot({
+      autoSchemaFile: 'schema.gql',
+      debug: false,
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],
