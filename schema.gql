@@ -51,3 +51,7 @@ input DeleteMessageInput {
   id: Float!
   userId: Float!
 }
+
+type Subscription {
+  messageAdded: Message!
+}

@@ -27,6 +27,7 @@ const graphQLImports = [UserResolvers, MessageResolver];
     GraphQLModule.forRoot({
       autoSchemaFile: 'schema.gql',
       debug: false,
+      installSubscriptionHandlers: true,
     }),
   ],
   controllers: [AppController],
