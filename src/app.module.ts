@@ -6,12 +6,13 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import RepoModule from './repo.module';
 import UserResolvers from './resolvers/user.resolver';
+import MessageResolver from './resolvers/message.resolver';
 
 import * as dotenv from 'dotenv';
 
 dotenv.config();
 
-const graphQLImports = [UserResolvers];
+const graphQLImports = [UserResolvers, MessageResolver];
 
 @Module({
   imports: [
